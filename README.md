@@ -61,7 +61,7 @@ You can test api via swagger after running with above command at below address
    http://localhost:3000/api-docs/#/
    ```
 
-![Screenshot 2024-07-02 at 09 37 48](https://github.com/hamdiceylan/EventTicketManagement/assets/3088148/608f9037-e145-4a7d-882f-59fb44c069e8)
+![Screenshot 2024-07-02 at 09 37 48](https://github.com/hamdiceylan/EventTicketManagement/assets/3088148/00283e39-d4ee-4e6d-82c7-d89818494b09)
 
 
 
