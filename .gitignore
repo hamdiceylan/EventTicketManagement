@@ -1,0 +1,51 @@
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.node_repl_history
+
+# Environment variables
+.env
+.env.test
+.env.local
+.env.production
+
+# Directories for build and deploy artifacts
+build/
+dist/
+coverage/
+.babelrc
+
+# MacOS files
+.DS_Store
+
+# IDEs and editors
+.vscode/
+.idea/
+
+# OS generated files
+Thumbs.db
+Desktop.ini
+
+# Docker files
+docker-compose.override.yml
+docker-compose.override.yml

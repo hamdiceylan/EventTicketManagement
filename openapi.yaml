@@ -1,0 +1,279 @@
+openapi: 3.1.0
+info:
+  title: Event Reservation API
+  description: API for managing event seat reservations.
+  version: 1.0.0
+servers:
+  - url: http://localhost:3000/api/v1
+    description: Local development server
+paths:
+  /events:
+    post:
+      summary: Create an event
+      operationId: createEvent
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                totalSeats:
+                  type: integer
+                  example: 100
+      responses:
+        '201':
+          description: Event created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: string
+                    example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+                  totalSeats:
+                    type: integer
+                    example: 100
+        '400':
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Total seats must be between 10 and 1000.
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /events/{eventId}/available-seats:
+    get:
+      summary: List available seats
+      operationId: listAvailableSeats
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+      responses:
+        '200':
+          description: List of available seats
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /events/{eventId}/seats/{seatId}/hold:
+    post:
+      summary: Hold a seat
+      operationId: holdSeat
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+        - name: seatId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: seat1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+      responses:
+        '200':
+          description: Seat held successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  seatId:
+                    type: string
+                    example: seat1
+                  userId:
+                    type: string
+                    example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+        '400':
+          description: Seat not available or already held
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Seat not available or already held
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /events/{eventId}/seats/{seatId}/reserve:
+    post:
+      summary: Reserve a held seat
+      operationId: reserveSeat
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+        - name: seatId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: seat1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+      responses:
+        '200':
+          description: Seat reserved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  seatId:
+                    type: string
+                    example: seat1
+                  userId:
+                    type: string
+                    example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+        '400':
+          description: "Cannot reserve seat: not held by user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot reserve seat: not held by user"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
+  /events/{eventId}/seats/{seatId}/refresh:
+    post:
+      summary: Refresh a hold on a seat
+      operationId: refreshHold
+      parameters:
+        - name: eventId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+        - name: seatId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: seat1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                  example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+      responses:
+        '200':
+          description: Hold refreshed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: success
+                  seatId:
+                    type: string
+                    example: seat1
+                  userId:
+                    type: string
+                    example: 37e40924-5cc1-4782-9123-1a5f73ce829d
+        '400':
+          description: "Cannot refresh hold: not held by user"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Cannot refresh hold: not held by user"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: Internal server error
